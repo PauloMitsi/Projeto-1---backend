@@ -62,15 +62,14 @@ Siga os passos abaixo para configurar e executar a aplicação em seu ambiente l
 
 **a. Clone este repositório:**
 ```bash
-git clone https://[URL_DO_SEU_REPOSITORIO]/projeto-servico-de-busca.git
-cd projeto-servico-de-busca
+git clone https://github.com/PauloMitsi/Projeto-1---backend.git
 ````
 
 **b. Instale as dependências:**
 
 ```bash
 npm install
-```
+````
 
 ### 3\. Configuração do Banco de Dados
 
@@ -81,8 +80,6 @@ Garanta que seu serviço do MongoDB esteja em execução.
 Abra o arquivo `/src/config/config.js` e insira a sua string de conexão do MongoDB no campo `MONGODB_URI`.
 
 ### 4\. Executando o Projeto
-
-Com a nova estrutura, você tem duas formas principais de interagir com o projeto:
 
 #### Opção A: Executar os Testes Automatizados
 

@@ -2,8 +2,10 @@ const http = require('http');
 const url = require('url');
 const { connectToDatabase } = require('./config/database');
 const {
+    checkStatus,
     indexarPagina,
     realizarBusca,
+    listarPalavrasChave,
 } = require('./controllers/searchController');
 
 const PORT = 3000;
@@ -26,18 +28,28 @@ async function iniciarServidor() {
             const parsedUrl = url.parse(req.url, true);
             const pathname = parsedUrl.pathname;
 
-            if (pathname === '/api/index' && req.method === 'POST') {
-                await indexarPagina(req, res);
-            } else if (pathname === '/api/search' && req.method === 'GET') {
-                await realizarBusca(req, res);
-            } else {
-                res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(
-                    JSON.stringify({
-                        sucesso: false,
-                        mensagem: 'Rota não encontrada.',
-                    })
-                );
+            if (pathname.startsWith('/api/')) {
+                if (pathname === '/api/index' && req.method === 'POST') {
+                    await indexarPagina(req, res);
+                } else if (pathname === '/api/search' && req.method === 'GET') {
+                    await realizarBusca(req, res);
+                } else if (
+                    pathname === '/api/keywords' &&
+                    req.method === 'GET'
+                ) {
+                    await listarPalavrasChave(req, res);
+                } else if (pathname === '/api/status' && req.method === 'GET') {
+                    // <-- NOVA ROTA DE STATUS
+                    await checkStatus(req, res);
+                } else {
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
+                    res.end(
+                        JSON.stringify({
+                            sucesso: false,
+                            mensagem: 'Endpoint da API não encontrado.',
+                        })
+                    );
+                }
             }
         });
 

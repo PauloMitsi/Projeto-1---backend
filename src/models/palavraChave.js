@@ -58,6 +58,23 @@ class PalavraChave {
             throw error;
         }
     }
+    /**
+     * Lista todas as palavras-chave cadastradas no banco, em ordem alfabética.
+     * @returns {Promise<Array<object>>} Uma lista de documentos de palavras-chave.
+     */
+    async listarTodas() {
+        try {
+            const palavras = await this.collection
+                .find({})
+                .sort({ palavra: 1 })
+                .toArray();
+            return palavras;
+        } catch (error) {
+            console.error('Erro ao listar todas as palavras-chave:', error);
+            
+            throw error;
+        }
+    }
 }
 
 module.exports = PalavraChave;

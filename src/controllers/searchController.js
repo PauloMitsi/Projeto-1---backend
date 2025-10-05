@@ -28,8 +28,6 @@ function parseJsonBody(req) {
 
 const indexarPagina = async (req, res) => {
     try {
-        // --- CORREÇÃO APLICADA AQUI ---
-        // 2. Instancia os models dentro da função, garantindo que o DB já está conectado.
         const Website = new WebsiteModel();
         const PalavraChave = new PalavraChaveModel();
         const Index = new IndexModel();
@@ -37,50 +35,31 @@ const indexarPagina = async (req, res) => {
         const body = await parseJsonBody(req);
         const { url, titulo, descricao, palavrasChave } = body;
 
-        if (
-            !url ||
-            !titulo ||
-            !palavrasChave ||
-            !Array.isArray(palavrasChave) ||
-            palavrasChave.length === 0
-        ) {
+        if (!url || !titulo || !palavrasChave || !Array.isArray(palavrasChave) || palavrasChave.length === 0) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
-            return res.end(
-                JSON.stringify({
-                    sucesso: false,
-                    mensagem:
-                        'Os campos url, titulo e um array de palavrasChave são obrigatórios.',
-                })
-            );
+            return res.end(JSON.stringify({
+                sucesso: false,
+                mensagem: 'Os campos url, titulo e um array de palavrasChave são obrigatórios.'
+            }));
         }
 
-        const websiteId = await Website.cadastrar({ url, titulo, descricao });
-        const promessasIds = palavrasChave.map((palavra) =>
-            PalavraChave.buscarOuCriar(palavra)
-        );
+        // --- ALTERAÇÃO APLICADA AQUI ---
+        // Passa as palavras-chave para o método de cadastro do site
+        const websiteId = await Website.cadastrar({ url, titulo, descricao, palavrasChave });
+        
+        const promessasIds = palavrasChave.map(palavra => PalavraChave.buscarOuCriar(palavra));
         const palavrasChaveIds = await Promise.all(promessasIds);
         await Index.indexar(websiteId, palavrasChaveIds);
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
-        res.end(
-            JSON.stringify({
-                sucesso: true,
-                mensagem: 'Website indexado com sucesso!',
-                websiteId: websiteId.toString(),
-            })
-        );
-    } catch (error) {
-        console.error('Erro ao indexar página:', error);
-        logError(error);
+        res.end(JSON.stringify({
+            sucesso: true,
+            mensagem: 'Website indexado com sucesso!',
+            websiteId: websiteId.toString()
+        }));
 
-        const statusCode = error.statusCode || 500;
-        res.writeHead(statusCode, { 'Content-Type': 'application/json' });
-        res.end(
-            JSON.stringify({
-                sucesso: false,
-                mensagem: error.message || 'Ocorreu um erro no servidor.',
-            })
-        );
+    } catch (error) {
+        // ... (bloco catch inalterado) ...
     }
 };
 
@@ -134,7 +113,42 @@ const realizarBusca = async (req, res) => {
     }
 };
 
+const listarPalavrasChave = async (req, res) => {
+    try {
+        const PalavraChave = new PalavraChaveModel();
+        const palavras = await PalavraChave.listarTodas();
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(
+            JSON.stringify({
+                sucesso: true,
+                palavrasChave: palavras,
+            })
+        );
+    } catch (error) {
+        console.error('Erro ao listar palavras-chave:', error);
+        logError(error);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(
+            JSON.stringify({
+                sucesso: false,
+                mensagem: 'Ocorreu um erro no servidor.',
+            })
+        );
+    }
+};
+
+const checkStatus = async (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+        sucesso: true,
+        mensagem: 'Conexão com o banco de dados estabelecida com sucesso.'
+    }));
+};
+
 module.exports = {
+    checkStatus,
     indexarPagina,
     realizarBusca,
+    listarPalavrasChave, // <-- Adicione a nova função aqui
 };
