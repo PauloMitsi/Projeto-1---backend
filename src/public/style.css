@@ -2,16 +2,19 @@
 
 :root {
     --background-dark: #121212;
-    --card-dark: #1E1E1E;
+    --card-dark: #1e1e1e;
     --primary-blue: #3a7bfd;
     --primary-hover: #5a95ff;
-    --text-primary: #EAEAEA;
-    --text-secondary: #A0A0A0;
+    --text-primary: #eaeaea;
+    --text-secondary: #a0a0a0;
     --border-color: #333333;
     --success-bg: rgba(40, 167, 69, 0.1);
     --success-text: #28a745;
     --error-bg: rgba(220, 53, 69, 0.1);
     --error-text: #dc3545;
+    /* --- NOVO ESTILO --- */
+    --warning-bg: rgba(255, 193, 7, 0.1);
+    --warning-text: #ffc107;
 }
 
 * {
@@ -77,7 +80,8 @@ header p {
     color: var(--text-secondary);
 }
 
-input, textarea {
+input,
+textarea {
     width: 100%;
     padding: 0.8rem 1rem;
     border: 1px solid var(--border-color);
@@ -89,7 +93,8 @@ input, textarea {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     outline: none;
     border-color: var(--primary-blue);
     box-shadow: 0 0 0 3px rgba(58, 123, 253, 0.25);
@@ -134,6 +139,13 @@ button:hover {
     display: block;
 }
 
+/* --- NOVO ESTILO --- */
+#status-message.warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-text);
+    display: block;
+}
+
 #results-container p {
     color: var(--text-secondary);
 }
@@ -165,14 +177,14 @@ button:hover {
 }
 
 .result-item p.description {
-    margin-bottom: 1rem; /* Espaço antes dos metadados */
+    margin-bottom: 1rem;
 }
 
 .result-meta {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 1rem; /* Espaço entre tags e meta info */
+    margin-top: 1rem;
 }
 
 .meta-info {
@@ -183,12 +195,11 @@ button:hover {
     border-radius: 12px;
 }
 
-/* --- NOVOS ESTILOS PARA AS TAGS NOS RESULTADOS --- */
 .result-tags-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
 }
 
 .result-tag {
@@ -206,10 +217,8 @@ button:hover {
     background-color: var(--primary-blue);
     color: white;
     border-color: var(--primary-hover);
-    cursor: default; /* Mantém o cursor padrão pois não são clicáveis */
+    cursor: default;
 }
-/* --- FIM DOS NOVOS ESTILOS --- */
-
 
 .tags-container {
     display: flex;
@@ -319,4 +328,3 @@ button:hover {
         grid-template-columns: 1fr;
     }
 }
-

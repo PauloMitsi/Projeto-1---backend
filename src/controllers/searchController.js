@@ -1,11 +1,10 @@
 const url = require('url');
-// 1. Importa as CLASSES dos models, não as instâncias
+
 const WebsiteModel = require('../models/website');
 const PalavraChaveModel = require('../models/palavraChave');
 const IndexModel = require('../models/index');
 const { logError } = require('../utils/logger');
 
-// Função auxiliar para processar o corpo de requisições JSON
 function parseJsonBody(req) {
     return new Promise((resolve, reject) => {
         let body = '';
@@ -74,9 +73,6 @@ const indexarPagina = async (req, res) => {
             })
         );
     } catch (error) {
-        // --- CORREÇÃO APLICADA AQUI ---
-        // Este bloco estava incompleto, causando o travamento.
-        // Agora, ele envia uma resposta de erro, desbloqueando o teste.
         console.error('Erro ao indexar página:', error);
         logError(error);
 

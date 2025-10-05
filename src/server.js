@@ -39,7 +39,6 @@ async function iniciarServidor() {
                 ) {
                     await listarPalavrasChave(req, res);
                 } else if (pathname === '/api/status' && req.method === 'GET') {
-                    // <-- NOVA ROTA DE STATUS
                     await checkStatus(req, res);
                 } else {
                     res.writeHead(404, { 'Content-Type': 'application/json' });

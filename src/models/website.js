@@ -27,8 +27,6 @@ class Website {
                 throw error;
             }
 
-            // --- CORREÇÃO APLICADA AQUI ---
-            // Adiciona o campo 'palavrasChave' ao objeto a ser salvo no banco.
             const novoSite = {
                 url: websiteData.url,
                 titulo: websiteData.titulo,
