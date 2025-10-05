@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Teste do Serviço de Busca</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚀 Serviço de Busca - Interface de Teste</h1>
+
+            <section class="card">
+                <h2>Indexar Novo Site</h2>
+                <form id="index-form">
+                    <div class="form-group">
+                        <label for="url">URL do Site</label>
+                        <input
+                            type="url"
+                            id="url"
+                            placeholder="https://exemplo.com"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">Título do Site</label>
+                        <input
+                            type="text"
+                            id="titulo"
+                            placeholder="Título Principal da Página"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição (Opcional)</label>
+                        <textarea
+                            id="descricao"
+                            rows="3"
+                            placeholder="Um breve resumo do conteúdo do site..."
+                        ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="palavrasChave"
+                            >Palavras-chave (separadas por vírgula)</label
+                        >
+                        <input
+                            type="text"
+                            id="palavrasChave"
+                            placeholder="exemplo, web, nodejs"
+                            required
+                        />
+                    </div>
+                    <button type="submit">Indexar Site</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Realizar Busca</h2>
+                <form id="search-form">
+                    <div class="form-group">
+                        <label for="search-query">Termos da Busca</label>
+                        <input
+                            type="search"
+                            id="search-query"
+                            placeholder="Digite uma ou mais palavras..."
+                        />
+                    </div>
+                    <button type="submit">Buscar</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Resultados</h2>
+                <div id="status-message"></div>
+                <div id="results-container">
+                    <p>Os resultados da sua busca aparecerão aqui.</p>
+                </div>
+            </section>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
