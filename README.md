@@ -1,128 +1,99 @@
-# 🚀 Projeto 1: Serviço de Busca (Back-End)
+## 📚 Projeto 1 (Recuperação): Biblioteca de Classes de Persistência com MongoDB
 
-Este projeto foi desenvolvido para a disciplina de **EC48B-C71 - Programação Web Back-End** da Universidade Tecnológica Federal do Paraná (UTFPR).
+Este projeto foi desenvolvido para a disciplina de **EC48B-C71 - Programação Web Back-End** da UTFPR.
 
-O objetivo é a criação de uma biblioteca de acesso a banco de dados em Node.js, com a temática de um **serviço de busca** (similar ao Google), capaz de indexar websites e buscá-los por palavras-chave. A aplicação foi construída utilizando apenas módulos nativos do Node.js para o servidor HTTP, sem o uso de frameworks como o Express.
+Em atendimento ao feedback da recuperação, a estrutura da aplicação foi simplificada, removendo o servidor HTTP, o sistema de rotas e a arquitetura MVC. O foco do projeto agora é a criação e demonstração da **Biblioteca de Classes de Acesso a Dados (Model/DAO)**, incluindo operações CRUD, validações, conexão com o MongoDB e um sistema de log de erros.
 
----
+-----
 
 ## ✨ Recursos e Funcionalidades
 
-* **Servidor HTTP Nativo:** Toda a aplicação roda sobre o módulo `http` do Node.js, incluindo um servidor de arquivos estáticos para a interface de teste.
-* **Indexação de Websites:** API para cadastrar novos sites, extraindo e associando suas palavras-chave.
-* **Busca por Palavras-Chave:** Implementação de um sistema de busca que retorna sites que contenham **todos** os termos pesquisados (lógica AND).
-* **Estrutura de Índice Invertido:** Uso de uma coleção no MongoDB para criar um índice invertido, garantindo buscas eficientes.
-* **Tratamento de Erros:** Validação de entradas e tratamento de exceções em todas as camadas da aplicação.
-* **Logging de Erros:** Armazenamento automático de todas as exceções capturadas no arquivo `/logs/error.log`.
-* **Teste Automatizado:** Script de teste dedicado que valida todas as funcionalidades da API.
+O projeto é uma biblioteca de classes capaz de simular um **serviço de busca**, indexando websites e realizando buscas eficientes por palavras-chave:
 
----
+  * **Classes de Persistência (Models):** Implementação das três classes de armazenamento (`Website`, `PalavraChave` e `Index`) com métodos CRUD (Create, Read, Update, Delete).
+  * **Indexação e Busca:** Lógica para cadastrar websites, gerenciar palavras-chave e realizar buscas por termos.
+  * **Validação de Dados:** Verificação de campos obrigatórios e tratamento de conflito (websites duplicados) diretamente nas classes de modelo.
+  * **Logging de Erros:** Módulo dedicado (`src/utils/logger.js`) para capturar e registrar automaticamente todas as exceções em um arquivo de texto (`/logs/error.log`).
+  * **Ponto de Entrada para Teste:** O arquivo `main.js` atua como o script de teste para demonstrar a funcionalidade de todas as classes.
 
-## 📂 Estrutura de Arquivos
+-----
 
-O projeto adota uma estrutura profissional que separa claramente as responsabilidades do back-end, front-end e testes.
+## 📂 Estrutura de Arquivos (Pós-Recuperação)
+
+A estrutura foi simplificada para conter apenas as classes de domínio e infraestrutura, conforme solicitado:
 
 ```
-
 /projeto-1-backend
 |
-|-- /logs/             \# Armazena os arquivos de log de erros
-|-- /public/           \# Contém os arquivos de front-end (HTML, CSS)
-|   |-- index.html
-|   |-- style.css
+|-- /logs/             # Armazena os arquivos de log de erros
+|-- /src/              # Contém o código-fonte principal
+|   |-- /config/       # Configuração do banco de dados
+|   |   |-- config.js
+|   |   |-- database.js
+|   |-- /models/       # Classes de Persistência (Website, PalavraChave, Index)
+|   |   |-- index.js
+|   |   |-- palavraChave.js
+|   |   |-- website.js
+|   |-- /utils/        # Utilitários (Logger)
+|   |   |-- logger.js
 |
-|-- /src/              \# Contém todo o código-fonte do back-end
-|   |-- /config/
-|   |-- /controllers/
-|   |-- /models/
-|   |-- /utils/
-|   |-- server.js        \# Ponto de entrada do servidor da API
-|
-|-- /tests/            \# Contém os scripts de teste
-|   |-- testes.js
-|
-|-- .gitignore
+|-- main.js            # Script principal de demonstração e teste (Novo Ponto de Entrada)
 |-- package.json
 |-- README.md
+```
 
-````
-
----
+-----
 
 ## 🛠️ Como Executar o Projeto
 
-Siga os passos abaixo para configurar e executar a aplicação em seu ambiente local.
+Siga os passos abaixo para configurar e executar a demonstração do projeto via console.
 
-### 1. Pré-requisitos
+### 1\. Pré-requisitos
 
-* **Node.js:** Versão 18 ou superior.
-* **MongoDB:** É necessário ter uma instância do MongoDB rodando localmente ou um cluster no MongoDB Atlas.
+  * **Node.js:** Versão 18 ou superior.
+  * **MongoDB:** É necessário ter uma instância do MongoDB rodando localmente (ou alterar a URI de conexão).
 
-### 2. Instalação
+### 2\. Instalação e Configuração
 
-**a. Clone este repositório:**
-```bash
-git clone https://github.com/PauloMitsi/Projeto-1---backend.git
-````
-
-**b. Instale as dependências:**
+**a. Instale as dependências:**
 
 ```bash
 npm install
-````
-
-### 3\. Configuração do Banco de Dados
-
-**a. Inicie o MongoDB:**
-Garanta que seu serviço do MongoDB esteja em execução.
+```
 
 **b. Configure a Conexão:**
-Abra o arquivo `/src/config/config.js` e insira a sua string de conexão do MongoDB no campo `MONGODB_URI`.
+Abra o arquivo `/src/config/config.js` e garanta que a `MONGODB_URI` aponte para sua instância do MongoDB.
 
-### 4\. Executando o Projeto
+### 3\. Executando a Demonstração
 
-#### Opção A: Executar os Testes Automatizados
-
-Este script irá subir um servidor temporário, rodar uma suíte completa de testes que validam todas as funcionalidades e, ao final, se desligará automaticamente. É a forma mais rápida de verificar a integridade do projeto.
+O projeto é executado através do script `main.js`, que demonstra as operações de Indexação (CREATE), Busca (READ) e Remoção (DELETE) das classes.
 
 Execute o seguinte comando no terminal:
 
 ```bash
-node tests/testes.js
+npm start
+# Ou diretamente: node main.js
 ```
 
-#### Opção B: Executar o Servidor para a Interface Web
+**Saída Esperada:** O terminal exibirá o log de conexão, a demonstração de indexação de sites, a validação de duplicação, a listagem de palavras-chave e a busca, comprovando o funcionamento das classes.
 
-Este script irá iniciar o servidor da API e o manterá no ar, pronto para servir a interface `index.html` e receber requisições.
-
-**a. Inicie o servidor:**
-
-```bash
-node src/server.js
-```
-
-O terminal exibirá a mensagem `✅ Servidor rodando com sucesso...`. **Mantenha este terminal aberto.**
-
-**b. Abra a interface no navegador:**
-Acesse o arquivo **index.html** na pasta "*public/index.html*" e abra um localhost.
-
-Você poderá usar os formulários para indexar sites e realizar buscas em tempo real.
+**Logs de Erro:** Qualquer falha (como a tentativa de duplicidade) será registrada automaticamente em `/logs/error.log`.
 
 -----
 
-## ✅ Critérios de Avaliação Atendidos
+## ✅ Critérios de Avaliação Atendidos (Recuperação)
 
-O projeto foi desenvolvido para atender a todos os critérios definidos na proposta da disciplina:
+O projeto foi ajustado para focar estritamente nos requisitos mínimos da disciplina:
 
-  * [x] **3 Classes de Armazenamento:** `Website`, `PalavraChave` e `Index`. 
-  * [x] **Implementação de Casos de Uso:** Funcionalidades de indexação e busca. 
-  * [x] **Verificação de Campos Obrigatórios:** Implementada nos controllers e models. 
-  * [x] **Tratamento de Exceções:** Blocos `try...catch` em todas as operações críticas. 
-  * [x] **Armazenamento de Logs:** Módulo `logger.js` funcional, salvando erros em `/logs/error.log`.  
+  * [x] **Remoção de Estrutura Web:** Os arquivos de rotas, controllers e o servidor HTTP (`server.js`) foram removidos.
+  * [x] **Classes com CRUD:** Implementação das classes `Website`, `PalavraChave` e `Index` com métodos de CRUD/Uso.
+  * [x] **Arquivo de Banco de Dados:** Conexão centralizada em `src/config/database.js`.
+  * [x] **Validações Necessárias:** Validações de campos e regras de negócio (duplicidade de URL) implementadas nas classes de modelo.
+  * [x] **Classe de Log de Erro:** Módulo `logger.js` funcional, registrando erros em `.txt`.
+  * [x] **Main/App/Index.js para Teste:** O arquivo `main.js` demonstra o uso de todas as classes via console.
 
----
+-----
 
 ### Autor(es)
 
   * Paulo Cesar De Oliveira Mitsi - 2410362
-
